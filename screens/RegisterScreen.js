@@ -2,6 +2,11 @@ import React, { useLayoutEffect, useState } from 'react'
 import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
 import { Button, Input, Text } from 'react-native-elements'
 import { StatusBar } from 'expo-status-bar'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from '../firebase'
 
 const RegisterScreen = ({ navigation }) => {
   const [fullname, setFullname] = useState('')
@@ -15,7 +20,20 @@ const RegisterScreen = ({ navigation }) => {
     })
   }, [navigation])
 
-  const signUp = () => {}
+  const register = () => {
+    const auth = getAuth()
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((authUser) => {
+        const user = authUser.user
+        updateProfile(user, {
+          displayName: fullname,
+          photoURL: imgurl,
+        })
+          .then(() => console.log('Profile Updated!'))
+          .catch((error) => console.log(error.message))
+      })
+      .catch((error) => alert(error.message))
+  }
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -51,14 +69,14 @@ const RegisterScreen = ({ navigation }) => {
           type="text"
           value={imgurl}
           onChangeText={(text) => setImgurl(text)}
-          onSubmitEditing={signUp}
+          onSubmitEditing={register}
         />
       </View>
 
       <Button
         raised
         containerStyle={styles.button}
-        onPress={signUp}
+        onPress={register}
         title="Register"
       />
       <View style={{ height: 100 }} />
