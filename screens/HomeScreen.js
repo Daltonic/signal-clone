@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { SimpleLineIcons } from '@expo/vector-icons'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -11,13 +11,30 @@ import {
 } from 'react-native'
 import { Avatar } from 'react-native-elements'
 import CustomListItem from '../components/CustomListItem'
-import { getAuth, signOut } from '../firebase'
+import {
+  getAuth,
+  signOut,
+  collection,
+  getFirestore,
+  onSnapshot,
+} from '../firebase'
 
 const HomeScreen = ({ navigation }) => {
+  const [chats, setChats] = useState([])
   const auth = getAuth()
+  const db = getFirestore()
   const signOutUser = () => {
     signOut(auth).then(() => navigation.replace('Login'))
   }
+
+  console.log(chats)
+  useEffect(
+    () =>
+      onSnapshot(collection(db, 'chats'), (snapshot) => {
+        setChats(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+      }),
+    []
+  )
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,7 +81,9 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView>
       <StatusBar style="light" />
       <ScrollView>
-        <CustomListItem />
+        {chats.map(({ id, chatName }) => (
+            <CustomListItem key={id} id={id} chatName={chatName} />
+        ))}
       </ScrollView>
     </SafeAreaView>
   )
