@@ -13,17 +13,17 @@ const logo = require('../assets/logo.png')
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const auth = getAuth()
 
-  useEffect(() => {
-    const auth = getAuth()
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) navigation.replace('Home')
-    })
-    return unsubscribe
-  }, [])
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (user) => {
+        if (user) navigation.replace('Home')
+      }),
+    []
+  )
 
   const signIn = () => {
-    const auth = getAuth()
     signInWithEmailAndPassword(auth, email, password).catch((error) =>
       console.log(error.message)
     )

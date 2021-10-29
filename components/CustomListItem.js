@@ -1,10 +1,10 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
 
 const CustomListItem = ({ id, chatName, enterChat }) => {
   return (
-    <ListItem key={id} bottomDivider>
+    <ListItem onPress={() => enterChat(id, chatName)} key={id} bottomDivider>
       <Avatar rounded source={{ uri: 'https://picsum.photos/400/400' }} />
       <ListItem.Content>
         <ListItem.Title style={{ fontWeight: 800 }}>{chatName}</ListItem.Title>

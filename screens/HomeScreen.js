@@ -27,7 +27,6 @@ const HomeScreen = ({ navigation }) => {
     signOut(auth).then(() => navigation.replace('Login'))
   }
 
-  console.log(chats)
   useEffect(
     () =>
       onSnapshot(collection(db, 'chats'), (snapshot) => {
@@ -53,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
         <View
           style={{
             marginRight: 20,
-            width: 80,
+            width: 120,
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}
@@ -77,12 +76,24 @@ const HomeScreen = ({ navigation }) => {
     })
   }, [navigation])
 
+  const enterChat = (id, chatName) => {
+    navigation.navigate('Chat', {
+      id,
+      chatName,
+    })
+  }
+
   return (
     <SafeAreaView>
       <StatusBar style="light" />
-      <ScrollView>
+      <ScrollView style={styles.container}>
         {chats.map(({ id, chatName }) => (
-            <CustomListItem key={id} id={id} chatName={chatName} />
+          <CustomListItem
+            key={id}
+            id={id}
+            chatName={chatName}
+            enterChat={enterChat}
+          />
         ))}
       </ScrollView>
     </SafeAreaView>
@@ -91,4 +102,8 @@ const HomeScreen = ({ navigation }) => {
 
 export default HomeScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+  },
+})
