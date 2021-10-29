@@ -52,7 +52,6 @@ const ChatScreen = ({ navigation, route }) => {
         query(
           collection(db, `chats/${route.params.id}`, 'messages'),
           orderBy('timestamp', 'desc')
-          
         ),
         (snapshot) => {
           setMessages(
@@ -70,7 +69,12 @@ const ChatScreen = ({ navigation, route }) => {
       headerTitleAlign: 'left',
       headerTitle: () => (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Avatar rounded source={{ uri: 'https://picsum.photos/400/400' }} />
+          <Avatar
+            rounded
+            source={{
+              uri: messages[0]?.photoURL,
+            }}
+          />
           <Text style={{ color: 'white', marginLeft: 10, fontWeight: 700 }}>
             {route.params.chatName}
           </Text>
@@ -95,7 +99,7 @@ const ChatScreen = ({ navigation, route }) => {
         </View>
       ),
     })
-  }, [navigation])
+  }, [navigation, messages])
 
   return (
     <SafeAreaView
