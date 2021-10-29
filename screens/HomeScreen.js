@@ -23,6 +23,7 @@ const HomeScreen = ({ navigation }) => {
   const [chats, setChats] = useState([])
   const auth = getAuth()
   const db = getFirestore()
+  
   const signOutUser = () => {
     signOut(auth).then(() => navigation.replace('Login'))
   }
@@ -55,6 +56,7 @@ const HomeScreen = ({ navigation }) => {
             width: 120,
             flexDirection: 'row',
             justifyContent: 'space-between',
+            backgroundColor: 'white'
           }}
         >
           <TouchableOpacity activeOpacity={0.5}>

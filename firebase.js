@@ -1,5 +1,13 @@
 import { initializeApp, getApps } from 'firebase/app'
-import { getFirestore, collection, addDoc, onSnapshot } from 'firebase/firestore'
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  serverTimestamp,
+  query,
+  orderBy,
+} from 'firebase/firestore'
 import {
   getAuth,
   onAuthStateChanged,
@@ -32,5 +40,8 @@ export {
   collection,
   addDoc,
   getFirestore,
-  onSnapshot
+  onSnapshot,
+  serverTimestamp,
+  query,
+  orderBy,
 }
